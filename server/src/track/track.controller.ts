@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
-import { ObjectId } from "mongoose";
-import { CreateTrackDto } from "./dto/create-track.dto";
-import { TrackService } from "./track.service";
-
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { ObjectId } from 'mongoose';
+import { CreateCommentDto } from './dto/create-comment.dto';
+import { CreateTrackDto } from './dto/create-track.dto';
+import { TrackService } from './track.service';
 
 @Controller('/tracks')
 export class TrackController {
-  constructor(private trackService: TrackService) {    }
+  constructor(private trackService: TrackService) {}
 
   @Post()
   create(@Body() dto: CreateTrackDto) {
@@ -24,8 +24,13 @@ export class TrackController {
     return this.trackService.getOne(id);
   }
 
-  @Delete(':id') 
+  @Delete(':id')
   delete(@Param('id') id: ObjectId) {
     return this.trackService.delete(id);
+  }
+  
+  @Post('/comment')
+  addComment(@Body() dto: CreateCommentDto) {
+    return this.trackService.addComment(dto);
   }
 }
