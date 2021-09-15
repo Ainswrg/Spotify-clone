@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import { ObjectId } from "mongoose";
 import { CreateTrackDto } from "./dto/create-track.dto";
 import { TrackService } from "./track.service";
 
@@ -14,15 +15,17 @@ export class TrackController {
   }
 
   @Get()
-  getAll() {
-    return 'WORK'
+  async getAll() {
+    return this.trackService.getAll();
   }
 
-  getOne() {
-
+  @Get(':id')
+  getOne(@Param('id') id: ObjectId) {
+    return this.trackService.getOne(id);
   }
 
-  delete() {
-    
+  @Delete(':id') 
+  delete(@Param('id') id: ObjectId) {
+    return this.trackService.delete(id);
   }
 }
