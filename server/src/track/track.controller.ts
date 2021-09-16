@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Body, Controller, Delete, Get, Param, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ObjectId } from 'mongoose';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -16,13 +16,23 @@ export class TrackController {
     { name: 'audio', maxCount: 1 },
   ]))
   create(@UploadedFiles() files, @Body() dto: CreateTrackDto) {
-    const {picture, audio} = files
+    const {picture, audio} = files || {}
     return this.trackService.create(dto, picture[0], audio[0]);
   }
 
   @Get()
-  async getAll() {
-    return this.trackService.getAll();
+  async getAll(
+      @Query('count') count: number,
+      @Query('offset') offset: number,
+    ) {
+    return this.trackService.getAll(count, offset);
+  }
+
+  @Get('/search')
+  search(
+      @Query('query') query: string,
+    ) {
+    return this.trackService.search(query);
   }
 
   @Get(':id')
