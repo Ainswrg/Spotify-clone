@@ -2,13 +2,14 @@ import { Button, Card, Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import { useRouter } from 'next/dist/client/router';
 import React from 'react';
+import TrackList from '../../components/TrackList';
 import MainLayout from '../../layouts/MainLayout';
 import { ITrack } from '../../types/track';
 
 const Index = () => {
   const router = useRouter()
   const tracks: ITrack[] = [
-    {_id: '1', name: 'Track 1', artist: 'Artist 1', text: 'some text', listens: 6, audio: 'http://localhost:5000/audio/11.mp3', picture: 'http://localhost:5000/picture/22.jpg', comments: []}
+    {_id: '1', name: 'Track 1', artist: 'Artist 1', text: 'some text', listens: 6, audio: 'http://localhost:5000/audio/11.mp3', picture: 'http://localhost:5000/image/22.jpg', comments: []}
   ]
   return (
     <>
@@ -21,6 +22,7 @@ const Index = () => {
                 <Button onClick={() => router.push('/tracks/create')}>Загрузить</Button>
               </Grid>
             </Box>
+            <TrackList tracks={tracks} />
           </Card>
         </Grid>
       </MainLayout>
